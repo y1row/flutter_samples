@@ -20,6 +20,12 @@ class _StackAnimationCardState extends State<StackAnimationCard>
   AnimationController animationController;
 
   @override
+  void dispose() {
+    animationController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     if (widget.isDropping) {
       var target =
@@ -33,10 +39,11 @@ class _StackAnimationCardState extends State<StackAnimationCard>
       var to = Offset((translation.x - fromTranslation.x) / from.size.width,
           (translation.y - fromTranslation.y) / from.size.height);
 
-      animationController =
-          AnimationController(vsync: this, duration: Duration(seconds: 1));
+      animationController = AnimationController(
+          vsync: this, duration: Duration(milliseconds: 250));
       tween = Tween<Offset>(begin: Offset.zero, end: to);
-      animation = tween.animate(animationController);
+      animation = tween.animate(
+          CurvedAnimation(parent: animationController, curve: Curves.easeIn));
       animationController.forward();
 
       return SlideTransition(
