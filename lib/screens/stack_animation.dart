@@ -69,7 +69,7 @@ class _StackAnimationScreenState extends State<StackAnimationScreen> {
           Stack(key: _stack, children: _droppedCards),
           Spacer(flex: 1),
           Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: _cards,
           ),
           Spacer(flex: 3),

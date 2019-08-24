@@ -51,8 +51,8 @@ class _StackAnimationCardState extends State<StackAnimationCard>
         child: Card(
           color: widget.color,
           child: Container(
-            width: 70,
-            height: 100,
+            width: MediaQuery.of(context).size.width / 6,
+            height: MediaQuery.of(context).size.width / 6 * 1.6,
           ),
         ),
       );
@@ -61,8 +61,8 @@ class _StackAnimationCardState extends State<StackAnimationCard>
     return Card(
       color: widget.color,
       child: Container(
-        width: 70,
-        height: 100,
+        width: MediaQuery.of(context).size.width / 6,
+        height: MediaQuery.of(context).size.width / 6 * 1.6,
       ),
     );
   }
