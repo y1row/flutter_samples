@@ -39,7 +39,8 @@ class _StackAnimationScreenState extends State<StackAnimationScreen> {
     setState(() {
       if (_cards.length > 0) {
         var dropCard = _cards.removeLast();
-        _cards.add(StackAnimationCard(color: dropCard.color, isDropping: true));
+        _cards.add(StackAnimationCard(
+            color: dropCard.color, isDropping: true, tweenTarget: _stack));
       }
     });
   }

@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 class StackAnimationCard extends StatefulWidget {
   final Color color;
   final bool isDropping;
+  final GlobalKey tweenTarget;
 
-  StackAnimationCard({Key key, this.color, this.isDropping = false})
+  StackAnimationCard(
+      {Key key, this.color, this.isDropping = false, this.tweenTarget})
       : super(key: key);
 
   @override
@@ -18,18 +20,25 @@ class _StackAnimationCardState extends State<StackAnimationCard>
   AnimationController animationController;
 
   @override
-  void initState() {
-    animationController =
-        AnimationController(vsync: this, duration: Duration(seconds: 1));
-    tween = Tween<Offset>(begin: Offset.zero, end: Offset(-2, -1.4));
-    animation = tween.animate(animationController);
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     if (widget.isDropping) {
+      var target =
+          widget.tweenTarget?.currentContext?.findRenderObject() as RenderBox;
+      var translation = target?.getTransformTo(null)?.getTranslation();
+      var size = target?.semanticBounds?.size;
+
+      var from = context.findRenderObject() as RenderBox;
+      var fromTranslation = from?.getTransformTo(null)?.getTranslation();
+
+      var to = Offset((translation.x - fromTranslation.x) / from.size.width,
+          (translation.y - fromTranslation.y) / from.size.height);
+
+      animationController =
+          AnimationController(vsync: this, duration: Duration(seconds: 1));
+      tween = Tween<Offset>(begin: Offset.zero, end: to);
+      animation = tween.animate(animationController);
       animationController.forward();
+
       return SlideTransition(
         position: animation,
         child: Card(
